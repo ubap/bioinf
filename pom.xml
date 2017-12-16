@@ -14,6 +14,12 @@
             <artifactId>biojava-core</artifactId>
             <version>4.2.9</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.biojava</groupId>
+            <artifactId>biojava-alignment</artifactId>
+            <version>4.2.9</version>
+        </dependency>
         <!-- other biojava jars as needed -->
     </dependencies>
 
