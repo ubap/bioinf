@@ -1,6 +1,8 @@
 package pl.edu.pg.eti.bioinf;
 
 import org.biojava.nbio.alignment.Alignments;
+import org.biojava.nbio.alignment.SimpleGapPenalty;
+import org.biojava.nbio.alignment.template.GapPenalty;
 import org.biojava.nbio.core.alignment.template.Profile;
 import org.biojava.nbio.core.sequence.ProteinSequence;
 import org.biojava.nbio.core.sequence.compound.AminoAcidCompound;
@@ -26,7 +28,21 @@ public class ExampleMSA {
         for (String id : ids) {
             lst.add(getSequenceForId(id));
         }
-        Profile<ProteinSequence, AminoAcidCompound> profile = Alignments.getMultipleSequenceAlignment(lst);
+
+        // <--------- additional settings
+
+        // also GLOBAL, GLOBAL_SIMILARITIES, KMERS, LOCAL, LOCAL_IDENTITIES, LOCAL_SIMILARITIES, WU_MANBER
+        Alignments.PairwiseSequenceScorerType psst = Alignments.PairwiseSequenceScorerType.GLOBAL_IDENTITIES;
+
+        GapPenalty gapPenalty = new SimpleGapPenalty(1 , 3);
+        System.out.println(gapPenalty.getType());
+
+        // also GLOBAL_CONSENSUS, GLOBAL_LINEAR_SPACE, LOCAL, LOCAL_CONSENSUS, LOCAL_LINEAR_SPACE
+        Alignments.ProfileProfileAlignerType ppat = Alignments.ProfileProfileAlignerType.GLOBAL;
+
+        // ----------------->
+
+        Profile<ProteinSequence, AminoAcidCompound> profile = Alignments.getMultipleSequenceAlignment(lst, psst, gapPenalty, ppat);
         System.out.printf("Clustalw:%n%s%n", profile);
         ConcurrencyTools.shutdown();
     }
